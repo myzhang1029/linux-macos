@@ -37,6 +37,10 @@ typedef Elf64_Addr	kernel_ulong_t;
 #include <ctype.h>
 #include <stdbool.h>
 
+#ifdef __APPLE__
+#define uuid_t compat_uuid_t
+#endif
+
 /**
  * module_alias_printf - add auto-generated MODULE_ALIAS()
  *
