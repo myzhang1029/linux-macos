@@ -456,6 +456,7 @@ static int cpio_mkfile(const char *name, const char *location,
 		    push_pad(namepadlen ? namepadlen : padlen(offset, 4)) < 0)
 			goto error;
 
+#ifndef __APPLE__
 		if (size) {
 			this_read = copy_file_range(file, NULL, outfd, NULL, size, 0);
 			if (this_read > 0) {
@@ -466,6 +467,7 @@ static int cpio_mkfile(const char *name, const char *location,
 			}
 			/* short or failed copy falls back to read/write... */
 		}
+#endif /* Directly fall back to read/write on macOS */
 
 		while (size) {
 			unsigned char filebuf[65536];
@@ -673,9 +675,15 @@ int main (int argc, char *argv[])
 			do_csum = true;
 			break;
 		case 'o':
+#ifndef __APPLE__
 			outfd = open(optarg,
 				     O_WRONLY | O_CREAT | O_LARGEFILE | O_TRUNC,
 				     0600);
+#else
+			outfd = open(optarg,
+				     O_WRONLY | O_CREAT | O_TRUNC,
+				     0600);
+#endif
 			if (outfd < 0) {
 				fprintf(stderr, "failed to open %s\n", optarg);
 				usage(argv[0]);
