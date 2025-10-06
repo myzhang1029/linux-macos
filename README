@@ -1,8 +1,18 @@
-Linux kernel
+Linux kernel buildable on macOS
 ============
 
 The Linux kernel is the core of any Linux operating system. It manages hardware,
 system resources, and provides the fundamental services for all other software.
+
+Install missing system headers:
+```sh
+brew install myzhang1029/myzhang1029/linux-build-headers
+```
+
+Add environmental variable `HOST_EXTRACFLAGS` to `make`:
+```sh
+HOST_EXTRACFLAGS="-I$(brew --prefix linux-build-headers)/include" PKG_CONFIG_PATH="$(brew --prefix ncurses)/lib/pkgconfig" gmake LLVM=1
+```
 
 Quick Start
 -----------
