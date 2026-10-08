@@ -355,6 +355,12 @@ config TELCLOCK
 	  /sys/devices/faux/telco_clock, with a number of files for
 	  controlling the behavior of this hardware.
 
+config ZMY
+	tristate "Zhang Maiyun kernel ID device"
+	default n
+	help
+	  The zmy device identifies his own kernel.
+
 source "drivers/s390/char/Kconfig"
 
 source "drivers/char/xillybus/Kconfig"
